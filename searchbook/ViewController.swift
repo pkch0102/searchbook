@@ -14,8 +14,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @IBOutlet weak var mod: UILabel!
     @IBOutlet weak var textfield: UITextField!
-    
     @IBOutlet weak var tableView: UITableView!
+    var modnum: Int = 0
     var curPage: Int = 1
     var bookItems: Array<Any> = []
     
@@ -42,12 +42,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let actionSheet = UIAlertController(title: nil,message: nil,preferredStyle: .actionSheet)
         actionSheet.addAction(UIAlertAction(title: "전체", style: .default, handler: { result in
             self.mod.text = "전체"
+            self.modnum = 0
         }))
         actionSheet.addAction(UIAlertAction(title: "제목", style: .default, handler: { result in
             self.mod.text = "제목"
+            self.modnum = 1
         }))
         actionSheet.addAction(UIAlertAction(title: "저자", style: .default, handler: { result in
             self.mod.text = "저자"
+            self.modnum = 2
         }))
         actionSheet.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
         self.present(actionSheet, animated: true, completion: nil)
@@ -68,9 +71,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         author = author.replace(target: "<b>",withString:"")
         author = author.replace(target: "</b>",withString:"")
-
-        let url = URL(string: image)!
-        cell.bookImageView.af_setImage(withURL: url)
+        if image.isEmpty{
+            let url = URL(string: image)!
+            cell.bookImageView.af_setImage(withURL: url)
+        }
         cell.bookTitleLabel.text = title
         cell.bookInfoLabel.text = author
         cell.bookPriceLabel.text = price
@@ -108,12 +112,21 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         url = url + "?query="
         url = url + word
         url = url + "&display=30&start=" + String(curPage)
+        if modnum == 1{
+            url = url + "&d_titl=Y&d_auth=N&d_cont=N&d_publ=N"
+        }
+        else if modnum == 2{
+            url = url + "&d_auth=Y&d_titl=N&d_cont=N&d_publ=N"
+        }
         let encodurl = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         
         Alamofire.request(encodurl, headers : headers).responseJSON {response in print(response.request)
             if let result: Dictionary<String, Any> = response.result.value as! Dictionary<String, Any>{
                 self.bookItems = (result["items"] as! NSArray) as! Array<Any>
                 self.tableView.reloadData()
+                let indexPath = IndexPath(row: 0, section: 0)
+                self.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+                //self.tableView.setContentOffset(CGPoint.zero, animated: true)
             }
         }
     }
@@ -128,7 +141,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             dialog.addAction(action)
             
             self.present(dialog, animated: true, completion: nil)
-            
             /*let action = UIAlertAction(title: "확인", style: UIAlertActionStyle.default){ (action: UIAlertAction) -> Void in
                 //수행하고자 하는 코드 추가
             }*/
