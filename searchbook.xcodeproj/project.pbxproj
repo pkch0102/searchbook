@@ -12,7 +12,10 @@
 		52073BCA204B9A0A00E77324 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52073BC8204B9A0A00E77324 /* Main.storyboard */; };
 		52073BCC204B9A0A00E77324 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52073BCB204B9A0A00E77324 /* Assets.xcassets */; };
 		52073BCF204B9A0A00E77324 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52073BCD204B9A0A00E77324 /* LaunchScreen.storyboard */; };
+		52779B812062856A00D116B6 /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 52779B802062856A00D116B6 /* arrow.png */; };
 		52DD8CE8204BA4CC00CA997C /* SearchBookCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52DD8CE7204BA4CC00CA997C /* SearchBookCell.swift */; };
+		52FC7AF0205E0AD8003F9748 /* test.png in Resources */ = {isa = PBXBuildFile; fileRef = 52FC7AEF205E0AD7003F9748 /* test.png */; };
+		52FC7AF2205E105E003F9748 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FC7AF1205E105E003F9748 /* DetailViewController.swift */; };
 		7C70ED2B7A35224DE2DBDFEC /* Pods_searchbook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62E5AA458A15B3FEBD1CB305 /* Pods_searchbook.framework */; };
 /* End PBXBuildFile section */
 
@@ -25,7 +28,10 @@
 		52073BCB204B9A0A00E77324 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		52073BCE204B9A0A00E77324 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		52073BD0204B9A0A00E77324 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		52779B802062856A00D116B6 /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow.png; sourceTree = "<group>"; };
 		52DD8CE7204BA4CC00CA997C /* SearchBookCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBookCell.swift; sourceTree = "<group>"; };
+		52FC7AEF205E0AD7003F9748 /* test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = test.png; path = ../../../Desktop/test.png; sourceTree = "<group>"; };
+		52FC7AF1205E105E003F9748 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		62E5AA458A15B3FEBD1CB305 /* Pods_searchbook.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_searchbook.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD2B42C718F547F08CBCCA17 /* Pods-searchbook.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-searchbook.release.xcconfig"; path = "Pods/Target Support Files/Pods-searchbook/Pods-searchbook.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -66,10 +72,13 @@
 				52073BC4204B9A0A00E77324 /* AppDelegate.swift */,
 				52073BC6204B9A0A00E77324 /* ViewController.swift */,
 				52DD8CE7204BA4CC00CA997C /* SearchBookCell.swift */,
+				52FC7AF1205E105E003F9748 /* DetailViewController.swift */,
 				52073BC8204B9A0A00E77324 /* Main.storyboard */,
 				52073BCB204B9A0A00E77324 /* Assets.xcassets */,
 				52073BCD204B9A0A00E77324 /* LaunchScreen.storyboard */,
 				52073BD0204B9A0A00E77324 /* Info.plist */,
+				52FC7AEF205E0AD7003F9748 /* test.png */,
+				52779B802062856A00D116B6 /* arrow.png */,
 			);
 			path = searchbook;
 			sourceTree = "<group>";
@@ -153,8 +162,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52FC7AF0205E0AD8003F9748 /* test.png in Resources */,
 				52073BCF204B9A0A00E77324 /* LaunchScreen.storyboard in Resources */,
 				52073BCC204B9A0A00E77324 /* Assets.xcassets in Resources */,
+				52779B812062856A00D116B6 /* arrow.png in Resources */,
 				52073BCA204B9A0A00E77324 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -203,10 +214,12 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-searchbook/Pods-searchbook-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireImage.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -223,6 +236,7 @@
 				52DD8CE8204BA4CC00CA997C /* SearchBookCell.swift in Sources */,
 				52073BC7204B9A0A00E77324 /* ViewController.swift in Sources */,
 				52073BC5204B9A0A00E77324 /* AppDelegate.swift in Sources */,
+				52FC7AF2205E105E003F9748 /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
