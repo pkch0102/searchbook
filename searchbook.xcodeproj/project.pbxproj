@@ -12,6 +12,7 @@
 		52073BCA204B9A0A00E77324 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52073BC8204B9A0A00E77324 /* Main.storyboard */; };
 		52073BCC204B9A0A00E77324 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52073BCB204B9A0A00E77324 /* Assets.xcassets */; };
 		52073BCF204B9A0A00E77324 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52073BCD204B9A0A00E77324 /* LaunchScreen.storyboard */; };
+		5263E68F20673E6800EC10BF /* arrow3.png in Resources */ = {isa = PBXBuildFile; fileRef = 5263E68E20673E6700EC10BF /* arrow3.png */; };
 		52779B812062856A00D116B6 /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 52779B802062856A00D116B6 /* arrow.png */; };
 		52DD8CE8204BA4CC00CA997C /* SearchBookCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52DD8CE7204BA4CC00CA997C /* SearchBookCell.swift */; };
 		52FC7AF0205E0AD8003F9748 /* test.png in Resources */ = {isa = PBXBuildFile; fileRef = 52FC7AEF205E0AD7003F9748 /* test.png */; };
@@ -28,6 +29,7 @@
 		52073BCB204B9A0A00E77324 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		52073BCE204B9A0A00E77324 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		52073BD0204B9A0A00E77324 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5263E68E20673E6700EC10BF /* arrow3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow3.png; sourceTree = "<group>"; };
 		52779B802062856A00D116B6 /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow.png; sourceTree = "<group>"; };
 		52DD8CE7204BA4CC00CA997C /* SearchBookCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBookCell.swift; sourceTree = "<group>"; };
 		52FC7AEF205E0AD7003F9748 /* test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = test.png; path = ../../../Desktop/test.png; sourceTree = "<group>"; };
@@ -79,6 +81,7 @@
 				52073BD0204B9A0A00E77324 /* Info.plist */,
 				52FC7AEF205E0AD7003F9748 /* test.png */,
 				52779B802062856A00D116B6 /* arrow.png */,
+				5263E68E20673E6700EC10BF /* arrow3.png */,
 			);
 			path = searchbook;
 			sourceTree = "<group>";
@@ -165,6 +168,7 @@
 				52FC7AF0205E0AD8003F9748 /* test.png in Resources */,
 				52073BCF204B9A0A00E77324 /* LaunchScreen.storyboard in Resources */,
 				52073BCC204B9A0A00E77324 /* Assets.xcassets in Resources */,
+				5263E68F20673E6800EC10BF /* arrow3.png in Resources */,
 				52779B812062856A00D116B6 /* arrow.png in Resources */,
 				52073BCA204B9A0A00E77324 /* Main.storyboard in Resources */,
 			);

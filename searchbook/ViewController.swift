@@ -10,14 +10,18 @@ import UIKit
 import AlamofireImage
 import Alamofire
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate{
     
     @IBOutlet weak var mod: UILabel!
+    @IBOutlet weak var goup: UIButton!
     @IBOutlet weak var textfield: UITextField!
     @IBOutlet weak var tableView: UITableView!
     var modnum: Int = 0
     var curPage: Int = 1
+    var keyWord: String = ""
     var bookItems: Array<Any> = []
+    let threshold: CGFloat = 250.0 // threshold from bottom of tableView
+    var isLoadingMore = false // flag
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,8 +31,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
  
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+         }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
@@ -59,6 +62,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: SearchBookCell = tableView.dequeueReusableCell(withIdentifier: "SearchBookCell", for: indexPath) as! SearchBookCell
         
+        cell.bookImageView.tag = indexPath.row
         let dict: Dictionary = self.bookItems[indexPath.row] as! Dictionary <String, Any>
         var title: String = dict["title"] as! String
         var author: String = dict["author"] as! String
@@ -66,29 +70,38 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let image: String = dict["image"] as! String
         
         //let modified = s.replace(" ", withString:"+")
-        title = title.replace(target: "<b>",withString:"")
-        title = title.replace(target: "</b>",withString:"")
-        
-        author = author.replace(target: "<b>",withString:"")
-        author = author.replace(target: "</b>",withString:"")
-        if image.isEmpty{
-            let url = URL(string: image)!
-            cell.bookImageView.af_setImage(withURL: url)
+        if !title.isEmpty {
+            title = title.replace(target: "<b>",withString:"")
+            title = title.replace(target: "</b>",withString:"")
+            cell.bookTitleLabel.text = title
         }
-        cell.bookTitleLabel.text = title
-        cell.bookInfoLabel.text = author
-        cell.bookPriceLabel.text = price
         
+        if !author.isEmpty {
+            author = author.replace(target: "<b>",withString:"")
+            author = author.replace(target: "</b>",withString:"")
+            cell.bookInfoLabel.text = author
+        }
         
+        if !price.isEmpty {
+            cell.bookPriceLabel.text = price
+        }
         
-        /*image    String    "https://bookthumb.phinf.naver.net/cover/132/413/13241318.jpg?type=m1&udate=20180211"    
-        Alamofire.request(image).responseImage { response in
-            if let image = response.result.value {
-                cell.bookImageView.image = image
+        if !image.isEmpty{
+            Alamofire.request(image).responseImage { response in
+                if let image = response.result.value {
+                    if cell.bookImageView.tag == indexPath.row {
+                        cell.bookImageView.image = image
+                    }
+                }
             }
         }
- */
         return cell
+    }
+    
+    @IBAction func gouptotouched(_ sender: Any) {
+        let indexPath = IndexPath(row: 0, section: 0)
+        self.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+        self.goup.isHidden = true
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -101,16 +114,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
-    
-    func reqvbooklist(_ word: String){
-        
+    func reqvbooklist(){
         let headers: HTTPHeaders = [
             "X-Naver-Client-Id":"kHZpka5OMHXGUPS_DcWE",
             "X-Naver-Client-Secret":"20rsZZrIWF"]
         
         var url : String = "https://openapi.naver.com/v1/search/book.json"
         url = url + "?query="
-        url = url + word
+        url = url + self.keyWord
         url = url + "&display=30&start=" + String(curPage)
         if modnum == 1{
             url = url + "&d_titl=Y&d_auth=N&d_cont=N&d_publ=N"
@@ -122,19 +133,42 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         Alamofire.request(encodurl, headers : headers).responseJSON {response in print(response.request)
             if let result: Dictionary<String, Any> = response.result.value as! Dictionary<String, Any>{
-                self.bookItems = (result["items"] as! NSArray) as! Array<Any>
-                self.tableView.reloadData()
-                let indexPath = IndexPath(row: 0, section: 0)
-                self.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+                if(self.curPage == 1){
+                    self.bookItems = (result["items"] as! NSArray) as! Array<Any>
+                    self.tableView.reloadData()
+                    self.goup.isHidden = true
+                    if(self.bookItems.count > 0) {
+                        let indexPath = IndexPath(row: 0, section: 0)
+                        self.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+                    }
+                }else{
+                    self.bookItems += (result["items"] as! NSArray) as! Array<Any>
+                    self.tableView.reloadData()
+                    self.isLoadingMore = false
+                }
+                self.curPage += 1
                 //self.tableView.setContentOffset(CGPoint.zero, animated: true)
             }
         }
     }
     
     @IBAction func searching(_ sender: Any) {
+        self.reqsearchbook()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        self.reqsearchbook()
+        return false
+    }
+    
+    func reqsearchbook (){
+        
         let keyword: String = textfield.text!
         if !keyword.isEmpty{
-         self.reqvbooklist(keyword)
+            self.curPage = 1
+            self.keyWord = keyword
+            self.reqvbooklist()
         }else{
             let dialog = UIAlertController(title: "알림", message: "검색어를 입력해주세요.", preferredStyle: .alert)
             let action = UIAlertAction(title: "확인", style: UIAlertActionStyle.default)
@@ -142,8 +176,26 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             self.present(dialog, animated: true, completion: nil)
             /*let action = UIAlertAction(title: "확인", style: UIAlertActionStyle.default){ (action: UIAlertAction) -> Void in
-                //수행하고자 하는 코드 추가
-            }*/
+             //수행하고자 하는 코드 추가
+             }*/
+        
+        }
+    }
+    
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        let contentOffset = scrollView.contentOffset.y
+        let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height;
+        
+        if self.bookItems.count > 0 {
+            if !isLoadingMore && (maximumOffset - contentOffset <= threshold) {
+                self.isLoadingMore = true
+                self.reqvbooklist()
+            }
+            if (contentOffset > 250){
+                self.goup.isHidden = false
+            }else{
+                self.goup.isHidden = true
+            }
         }
     }
     

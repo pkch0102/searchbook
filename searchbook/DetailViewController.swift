@@ -25,23 +25,56 @@ class DetailViewController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let title: String = self.bookInfo["title"] as! String
-        let author: String = self.bookInfo["author"] as! String
+        var title: String = self.bookInfo["title"] as! String
+        var author: String = self.bookInfo["author"] as! String
         let price: String = self.bookInfo["price"] as! String
-        let publisher: String = self.bookInfo["publisher"] as! String
+        var publisher: String = self.bookInfo["publisher"] as! String
         let description: String = self.bookInfo["description"] as! String
         let date: String = self.bookInfo["pubdate"]as! String
         let imageurl: String = self.bookInfo["image"]as! String
-        let url = URL(string: imageurl)!
         
-        self.navititlelabel.text = title
-        self.imageview.af_setImage(withURL: url)
-        self.titlelabel.text = title
-        self.author.text = author
-        self.price.text = price
-        self.desciption.text = description
-        self.publisher.text = publisher
-        self.date.text = date
+        if !title.isEmpty{
+            title = title.replace(target: "<b>",withString:"")
+            title = title.replace(target: "</b>",withString:"")
+            self.navititlelabel.text = title
+            self.titlelabel.text = title
+            
+        }
+        
+        if !author.isEmpty{
+            author = author.replace(target: "<b>",withString:"")
+            author = author.replace(target: "</b>",withString:"")
+           self.author.text = author
+        }
+        
+        if !price.isEmpty{
+            self.price.text = price
+        }
+        
+        if !publisher.isEmpty{
+            publisher = publisher.replace(target: "<b>",withString:"")
+            publisher = publisher.replace(target: "</b>",withString:"")
+              self.publisher.text = publisher
+        }
+        
+        if !description.isEmpty{
+            self.desciption.text = description
+        }
+        
+        if !date.isEmpty{
+             self.date.text = date
+        }
+        
+        if !imageurl.isEmpty{
+            Alamofire.request(imageurl).responseImage { response in
+                if let image = response.result.value {
+                    self.imageview.image = image
+                }
+            }
+        }
+       
+        
+       
     }
     
     
